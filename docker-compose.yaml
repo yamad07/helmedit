@@ -1,0 +1,21 @@
+version: "3"
+services:
+  image:
+    container_name: "go-git"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      ash -c "go get -u github.com/yamad07/helmedit/cmd/helmedit &&
+      git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/yamad07/helmedit  &&
+      cd helmedit &&
+      git config --global user.email 'yuhsukeshootsfc@gmail.com' &&
+      git config --global user.name 'Yusuke Yamada' &&
+      git checkout dev &&
+      helmedit -f fixtures/values.yaml -v replicaCount=7 &&
+      cat fixtures/values.yaml &&
+      git add . &&
+      git commit -m '[tekton] change chart.' &&
+      git push origin dev"
+    env_file:
+      - .env
