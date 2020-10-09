@@ -1,0 +1,4 @@
+replicaCount: 3
+service:
+  annotations:
+    meta: civilization.solution
